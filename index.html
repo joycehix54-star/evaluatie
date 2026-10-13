@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="nl-BE"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jouw YouTime evaluatie</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7eee1;--card:#fff;--ink:#0c0c0c;--mut:#6b6254;--gold:#c9a464;--green:#3e642c;--org:#e4831c;--pink:#e4b7be;--line:#e6dac6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0c0c;--card:#1a1713;--ink:#f7eee1;--mut:#b5a994;--line:#332d24}}
+:root[data-theme="dark"]{--bg:#0c0c0c;--card:#1a1713;--ink:#f7eee1;--mut:#b5a994;--line:#332d24}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 Mulish,system-ui,sans-serif;text-align:left}
+.app{max-width:520px;margin:0 auto;padding:18px 18px 40px}
+.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--org));transition:width .4s}
+.cnt{font-size:13px;color:var(--mut);margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px 20px;box-shadow:0 8px 30px rgba(201,164,100,.15);animation:in .35s}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+h1,h2{font-family:Fraunces,Georgia,serif;font-weight:600;line-height:1.2;margin:0 0 10px}
+h1{font-size:30px}h2{font-size:24px}
+.em{font-size:42px;margin-bottom:6px}
+p{margin:0 0 12px}.hint{color:var(--mut);font-size:14px}
+textarea,input[type=text]{width:100%;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;padding:13px;font:inherit;resize:vertical}
+textarea{min-height:130px}
+textarea:focus,input:focus{outline:none;border-color:var(--gold)}
+.btn{display:block;width:100%;border:0;border-radius:999px;padding:15px;font:700 16px Mulish,sans-serif;cursor:pointer;margin-top:16px;background:var(--green);color:#fff}
+.btn.gold{background:var(--gold);color:#0c0c0c}.btn.ghost{background:transparent;color:var(--mut);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.4}
+.row{display:flex;gap:10px}.row .btn{margin-top:12px}
+.item{padding:14px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}
+.item b{display:block;margin-bottom:8px;font-weight:600}
+.sc{display:flex;gap:8px}
+.sc button{flex:1;aspect-ratio:1;max-height:52px;border-radius:50%;border:1.5px solid var(--line);background:transparent;color:var(--ink);font:700 16px Mulish;cursor:pointer;transition:.15s}
+.sc button.on{background:var(--gold);border-color:var(--gold);color:#0c0c0c;transform:scale(1.12)}
+.lg{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-top:6px}
+.nps{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}
+.nps button{aspect-ratio:1;border-radius:14px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font:700 16px Mulish;cursor:pointer}
+.nps button.on{background:var(--org);border-color:var(--org);color:#fff}
+.ch{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.ch button{text-align:left;border:1.5px solid var(--line);background:transparent;color:var(--ink);padding:13px 15px;border-radius:14px;font:inherit;cursor:pointer}
+.ch button.on{border-color:var(--green);background:rgba(62,100,44,.12);font-weight:700}
+.sig{font-family:'Alex Brush',cursive,Georgia,serif;font-size:26px;margin-top:14px}
+.out{white-space:pre-wrap;font-size:14px;background:var(--bg);border-radius:14px;padding:14px;max-height:220px;overflow:auto;border:1px dashed var(--gold)}
+</style></head><body>
+<div class="app"><div class="bar"><i id="pb"></i></div><div class="cnt" id="ct"></div><div id="s"></div></div>
+<script>
+var G=[
+{t:"Product",e:"🌿",items:["Carboniix en Culturiix","Day en Night Drops"]},
+{t:"Privébegeleiding",e:"💬",items:["WhatsApp: persoonlijk advies en tips","Wekelijkse check-in 1 op 1","Voedingsadvies op maat"]},
+{t:"Boards app",e:"📱",items:["Gezondheidskennis stap per stap","Wekelijkse maaltijdplannen","Wekelijkse zelfevaluatie en lichaamsinzichten"]}];
+var S=[
+{k:"intro"},
+{k:"txt",id:"q1",e:"🌱",q:"Waar stond je toen we begonnen?",h:"Hoe voelde je je qua energie, buik en slaap?"},
+{k:"txt",id:"q2",e:"✨",q:"Wat is er voor jou het meest veranderd?",h:"Groot of klein, alles telt."},
+{k:"txt",id:"q3",e:"🎁",q:"Wat had je niet verwacht?",h:"Positief of negatief, ik wil het eerlijk weten."},
+{k:"sc",g:0},{k:"sc",g:1},{k:"sc",g:2},
+{k:"txt",id:"q5",e:"🔧",q:"Wat was lastig, of wat kon ik beter doen?",h:"Jouw eerlijkheid maakt mijn begeleiding beter."},
+{k:"nps"},
+{k:"rev"},
+{k:"end"}];
+var A={name:"",sc:{},nps:null,why:"",perm:""},i=0,el=document.getElementById("s");
+function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function nav(f,b){return '<div class="row">'+(b?'<button class="btn ghost" onclick="go(-1)">Terug</button>':'')+'<button class="btn" id="nx" onclick="go(1)">'+(f||"Volgende")+'</button></div>'}
+function go(d){i=Math.max(0,Math.min(S.length-1,i+d));r();window.scrollTo(0,0)}
+function ok(v){var n=document.getElementById("nx");if(n)n.disabled=!v}
+function r(){
+var s=S[i],h="";
+document.getElementById("pb").style.width=(i/(S.length-1)*100)+"%";
+document.getElementById("ct").textContent=(i>0&&i<S.length-1)?"Stap "+i+" van "+(S.length-2):"";
+if(s.k=="intro"){h='<div class="em">🌿</div><h1>Jouw evaluatie</h1><p>Hoi! Bedankt dat je de tijd neemt. Het zijn 10 korte stapjes, één per scherm. Duurt ongeveer 3 minuten.</p><p class="hint">Eerlijk antwoorden is het mooiste cadeau dat je me kan geven.</p><input type="text" id="nm" placeholder="Jouw voornaam" value="'+esc(A.name)+'" oninput="A.name=this.value;ok(this.value.trim())">'+nav("Start")}
+if(s.k=="txt"){h='<div class="em">'+s.e+'</div><h2>'+s.q+'</h2><p class="hint">'+s.h+'</p><textarea id="ta" placeholder="Typ hier, of gebruik de microfoon op je toetsenbord 🎤" oninput="A[\''+s.id+'\']=this.value;ok(this.value.trim())">'+esc(A[s.id]||"")+'</textarea>'+nav("",1)}
+if(s.k=="sc"){var g=G[s.g];h='<div class="em">'+g.e+'</div><h2>'+g.t+'</h2><p class="hint">Hoe goed heeft dit je geholpen? 1 = niet, 5 = enorm.</p>';
+g.items.forEach(function(it,n){var key=s.g+"-"+n;h+='<div class="item"><b>'+it+'</b><div class="sc">';for(var v=1;v<=5;v++)h+='<button class="'+(A.sc[key]==v?"on":"")+'" onclick="sv(\''+key+'\','+v+')">'+v+'</button>';h+='</div><div class="lg"><span>Niet</span><span>Enorm</span></div></div>'});
+h+=nav("",1)}
+if(s.k=="nps"){h='<div class="em">💛</div><h2>Zou je dit aanraden aan een vriendin?</h2><p class="hint">0 = zeker niet, 10 = absoluut.</p><div class="nps">';for(var v=0;v<=10;v++)h+='<button class="'+(A.nps===v?"on":"")+'" onclick="A.nps='+v+';r()">'+v+'</button>';h+='</div><textarea placeholder="Waarom dat cijfer?" oninput="A.why=this.value">'+esc(A.why)+'</textarea>'+nav("",1)}
+if(s.k=="rev"){h='<div class="em">⭐</div><h2>Jouw review in eigen woorden</h2><p class="hint">Wat zou je vertellen aan een vriendin die twijfelt? Welk punt had voor jou het grootste effect, en waarom?</p><textarea oninput="A.rev=this.value;ok(this.value.trim()&&A.perm)">'+esc(A.rev||"")+'</textarea><p style="margin-top:14px"><b>Mag ik dit delen?</b></p><div class="ch">'+["Ja, met mijn voornaam","Ja, anoniem","Liever niet delen"].map(function(o){return '<button class="'+(A.perm==o?"on":"")+'" onclick="A.perm=\''+o+'\';r()">'+o+'</button>'}).join("")+'</div>'+nav("Afronden",1);}
+if(s.k=="end"){var m=msg();h='<div class="em">🎉</div><h1>Bedankt, '+esc(A.name)+'!</h1><p>Laatste stap: stuur je antwoorden naar mij via WhatsApp. Tik op de knop, mijn chat opent en je antwoorden staan al klaar. Tik op verzenden en klaar.</p><div class="out" id="o">'+esc(m)+'</div><a class="btn" style="text-align:center;text-decoration:none" href="https://wa.me/32476567943?text='+encodeURIComponent(m)+'" target="_blank" rel="noopener">Stuur via WhatsApp</a><button class="btn gold" onclick="cp()" id="cb">Kopieer mijn antwoorden</button><div class="sig">Liefs Joyce🌿</div>'}
+el.innerHTML='<div class="card">'+h+'</div>';
+var n=document.getElementById("nx");
+if(n){if(s.k=="intro")n.disabled=!A.name.trim();if(s.k=="txt")n.disabled=!(A[s.id]||"").trim();if(s.k=="sc")n.disabled=!G[s.g].items.every(function(_,x){return A.sc[s.g+"-"+x]});if(s.k=="nps")n.disabled=A.nps===null;if(s.k=="rev")n.disabled=!((A.rev||"").trim()&&A.perm)}}
+function sv(k,v){A.sc[k]=v;r()}
+function msg(){var t="Hoi Joyce, hier is mijn evaluatie (van "+A.name+"):\n\n";
+t+="1. Waar ik stond: "+A.q1+"\n\n2. Wat het meest veranderde: "+A.q2+"\n\n3. Wat ik niet verwachtte: "+A.q3+"\n\n4. Scores (1 tot 5):\n";
+G.forEach(function(g,a){g.items.forEach(function(it,b){t+="- "+it+": "+A.sc[a+"-"+b]+"\n"})});
+t+="\n5. Lastig / beter kon: "+A.q5+"\n\n6. Aanraden (0 tot 10): "+A.nps+(A.why?" ("+A.why+")":"")+"\n\n7. Mijn review: "+(A.rev||"")+"\nDelen: "+A.perm;return t}
+function cp(){var m=msg(),b=document.getElementById("cb");function d(){b.textContent="Gekopieerd ✓"}
+try{navigator.clipboard.writeText(m).then(d,fb)}catch(e){fb()}
+function fb(){var o=document.getElementById("o"),rg=document.createRange();rg.selectNodeContents(o);var s=getSelection();s.removeAllRanges();s.addRange(rg);try{document.execCommand("copy");d()}catch(e){b.textContent="Selecteer en kopieer de tekst hierboven"}}}
+r();
+</script></body></html>
